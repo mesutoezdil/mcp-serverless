@@ -1,10 +1,11 @@
 import asyncio
+import os
 import requests
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp import types
 
-NEBIUS_ENDPOINT = "http://89.169.111.36:8000"
+NEBIUS_ENDPOINT = os.getenv("NEBIUS_ENDPOINT", "http://localhost:8000")
 
 app = Server("nebius-mcp-bridge")
 
