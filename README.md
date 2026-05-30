@@ -35,7 +35,36 @@ nebius ai endpoint create \
   --public
 ```
 
-3. Set the endpoint URL in bridge.py and add to Claude Desktop config.
+3. Configure `bridge.py` and Claude Desktop (see Configuration below).
+
+## Configuration
+
+`bridge.py` reads the endpoint URL from the `NEBIUS_ENDPOINT` environment variable, defaulting to `http://localhost:8000` if unset. Point it at your Nebius endpoint by setting the variable.
+
+Run the bridge standalone:
+
+```
+export NEBIUS_ENDPOINT="http://<your-endpoint-host>:8000"
+python3 bridge.py
+```
+
+Wire it into Claude Desktop by editing `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS):
+
+```json
+{
+  "mcpServers": {
+    "nebius-serverless": {
+      "command": "/Users/<you>/mcp-bridge-env/bin/python3",
+      "args": ["/Users/<you>/mcp-bridge-env/bridge.py"],
+      "env": {
+        "NEBIUS_ENDPOINT": "http://<your-endpoint-host>:8000"
+      }
+    }
+  }
+}
+```
+
+Restart Claude Desktop after editing the config. Logs land at `~/Library/Logs/Claude/mcp-server-nebius-serverless.log`.
 
 ## Expected Output
 
